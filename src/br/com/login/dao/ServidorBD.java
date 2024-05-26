@@ -11,16 +11,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 
-
+/**
+ *
+ * @author Ryan Paulo
+ */
 public class ServidorBD extends Thread{
 
     private Socket conexao;
     
     Conexao conectaBD = new Conexao();
-    
     public static String nome;
-
-
     LoginDAO loginDAO = new LoginDAO();
  
 
@@ -68,11 +68,11 @@ public class ServidorBD extends Thread{
                         System.out.println("Não foi possível fazer o login.");
                     }
                 } else {
-                    String nome = entrada.readLine();
+                    String nomeUsuario = entrada.readLine();
                     String email = entrada.readLine();
                     String senha = entrada.readLine();
 
-                    if (loginDAO.cadastrarUsuario(nome, email, senha)) {
+                    if (loginDAO.cadastrarUsuario(nomeUsuario, email, senha)) {
                         saida.println("true");
                         System.out.println("Cadastro efetuado com sucesso.");
                     } else {

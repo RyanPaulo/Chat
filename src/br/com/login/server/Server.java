@@ -1,94 +1,159 @@
+
+
 package br.com.login.server;
+
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.PrintStream;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.io.InputStreamReader;
 
-import br.com.login.view.HomeView;
+/**
+ *
+ * @author Ryan Paulo
+ */
+public class Server extends Thread {
+        
 
-public class Server extends Thread{
-
-    private static HashMap<String, PrintStream> clients = new HashMap<>();
-
-    private static ArrayList clientsNome = new ArrayList<>();
-
+    
+    // ArrayList com o PrintStream dos clientes
+    private static ArrayList clientes = new ArrayList();
+    // ArrayList com o nome dos clientes
+    private static ArrayList clientesNome = new ArrayList();
+    // Socket deste cliente
     private Socket conexao;
+    // Nome deste cliente
     private String meuNome;
-    private static HomeView home;
-
-    public static void main(String[] args) {
+        
+    public static void main(String args[]) {                        
+        
         try {
-             ServerSocket s = new ServerSocket(3333);
-
-             System.out.println("Esperando alguem se conectar...");
-             Socket conexao = s.accept();
-             System.out.println("Conectou!...");
-
-             Thread t = new Server(conexao, home);
-             t.start();
+            // criando um socket que fica escutando a porta 3333.
+            ServerSocket s = new ServerSocket(3333);
+            // Loop principal.
+            while (true) {
+                /**  Aguarda algum cliente se conectar. A execução do
+                * servidor fica bloqueada na chamada do método accept da
+                * classe ServerSocket. Quando algum cliente se conectar
+                * ao servidor, o método desbloqueia e retorna com um
+                * objeto da classe Socket, que é a porta da comunicação.
+                */ 
+                System.out.print("Esperando alguem se conectar...");
+                Socket conexao = s.accept();
+                System.out.println(" Conectou!");                
+                // Cria uma nova thread para tratar essa conexão.
+                Thread t = new Server(conexao);
+                // Inicia a thread.
+                t.start();
+                // Voltando ao loop, esperando mais alguém se conectar.
+            }
         } catch (IOException e) {
+            // Caso ocorra alguma excessão de E/S, mostre qual foi.
             System.out.println("IOException: " + e);
         }
     }
 
-
-    public Server(Socket s, HomeView home) {
+    /**
+     * Construtor que recebe o socket deste cliente
+     * @param s - socket do usuário atual
+     */
+    public Server(Socket s) {
         conexao = s;
-        this.home = home;
-    }
+    }       
 
-
+    /**
+     * O run() é chamado após executar o método .start() no main.
+     * O método run() é sobreescrito para receber o nome do usuário e depois 
+     * ficar "escutando" por novas mensagens do usuário.
+     */    
+    @Override
     public void run() {
         try {
+            // Objetos que permitem controlar o fluxo de comunicação.
             BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
             PrintStream saida = new PrintStream(conexao.getOutputStream());
-
-            meuNome = entrada.readLine();
-
-            clients.put(meuNome, saida);
-
-           // home.atualizarContatos(meuNome);
-
+            // Servidor fica esperando o nome do cliente.
+            meuNome = entrada.readLine();                       
+            // Uma vez que se tem um cliente conectado e conhecido,
+            // coloca-se fluxo de saída para esse cliente no ArrayList de
+            // clientes conectados.
+            clientes.add(saida);      
+            clientesNome.add(meuNome);
+            // Clientes é objeto compartilhado por várias threads!
+            // De acordo com o manual da API, os métodos são
+            // sincronizados. Portanto, não há problemas de acessos
+            // simultâneos.
+                       
+            // Manda mensagem para os outros clientes quando alguém se conecta.
             sendToAll(saida, " entrou ", "no chat");
-
-            saida.println("Número de usuários conectados: " + clients.size());
-
+            // Chama o método sendoToOne, que envia mensagem com o nome de            
+            // todos os usuário conectados para o cliente atual.
+            sendToOne(saida ,meuNome, " entrou ", "no chat");
+            // Informa o número de clientes conectados no chat.
+            saida.println("Número de usuários conectados: " + clientes.size());
+            
+             // Loop principal: esperando por alguma string do cliente.
+            // Quando recebe, envia a todos os conectados. 
+            // Verificar se linha é null (conexão interrompida)
+            // Se não for nula, pode-se compará-la com métodos string
             String linha = entrada.readLine();
             while (linha != null && !(linha.trim().equals(""))) {
+                // Reenvia a linha para todos os clientes conectados
                 sendToAll(saida, " disse > ", linha);
-                linha = entrada.readLine(); 
+                // Espera por uma nova linha.
+                linha = entrada.readLine();        
             }
+            // Uma vez que o cliente enviou linha em branco, retira-se
+            // fluxo de saída da arrayList de clientes e fecha-se conexão.
             sendToAll(saida, " saiu ", "do chat!");
-            clients.remove(saida);
+            clientes.remove(saida);
+            clientesNome.remove(meuNome);
             conexao.close();
         } catch (IOException e) {
+            // Caso ocorra alguma excessão de E/S, mostre qual foi.
             System.out.println("IOException: " + e);
         }
     }
 
+    /**
+     * Envia as mensagens para todos os usuários, menos para o próprio.
+     * @param saida - PrintStream do usuário.
+     * @param acao - essa variável é controlada pelo servidor, possíveis valores:
+     * disse, saiu, entrou.
+     * @param linha - mensagem enviada pelo cliente e que será enviada para os demais.
+     * @throws IOException 
+     */
     public void sendToAll(PrintStream saida, String acao, String linha) throws IOException {
-        for (PrintStream chat : clients.values()) {
+        for (int i = 0; i < clientes.size(); i++) {
+            PrintStream chat = (PrintStream) clientes.get(i);
+
             if (chat != saida) {
                 chat.println(meuNome + acao + linha);           
             }
 
         }
     }
+    
+    /**
+     * Envia o nome de todos os usuários conectados no chat para o usuário atual.
+     * @param saida - PrintStream do usuário.
+     * @param nome - Nome do usuário conectado.
+     * @param acao - Esta variável é controlada pelo servidor, possíveis valores:
+     * disse, saiu, entrou.
+     * @param linha - mensagem enviada pelo cliente e que será enviada para os demais.
+     * @throws IOException 
+     */
+     public void sendToOne(PrintStream saida, String nome, String acao, String linha) throws IOException {
+        for (int i = 0; i < clientesNome.size()-1; i++) {            
+            String chat = clientesNome.get(i).toString();         
 
-    public void sendToOne(PrintStream nomeDestino, String acao, String linha) throws IOException {
-        PrintStream chatDestino = clients.get(nomeDestino);
-        if (chatDestino != null) {            
-            chatDestino.println((meuNome + acao + linha));        
-        }else {
-            System.out.println("Usuario " + nomeDestino + "não encontrado");
+            if (!chat.equals(nome)) {               
+                saida.println(clientesNome.get(i).toString() + acao + linha);
+            }
         }
-            
-        
-    } 
-
+    }    
 }
+

@@ -1,25 +1,26 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package br.com.login.dao;
 
-
-import java.sql.*;
-
-import br.com.login.controller.LoginController;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 /**
  *
- * @author Ryanp
+ * @author Ryan Paulo
  */
 public class LoginDAO {
     
     public boolean cadastrarUsuario(String nome, String email, String senha) throws SQLException{
         Connection conexao = new Conexao().getConnection();
-        String sql = "INSERT INTO login (nome, email, senha) VALUES ('"+nome+"', '"+email+"', '"+senha+"') ";
-        System.out.println(sql);
+        String sql = "INSERT INTO login (nome, email, senha) VALUES ( ?, ?, ?) ";
+        //System.out.println(sql);
         try (PreparedStatement statment = conexao.prepareStatement(sql)) {
+            statment.setString(1, nome);
+            statment.setString(2, email);
+            statment.setString(3, senha);
             statment.execute();
             return true;
         }

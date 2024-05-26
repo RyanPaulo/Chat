@@ -7,7 +7,7 @@ import java.security.NoSuchAlgorithmException;
 
 /**
  *
- * @author Ryanp
+ * @author Ryan Paulo
  */
 public class MD5Controller {
 

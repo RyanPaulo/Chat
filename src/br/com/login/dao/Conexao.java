@@ -7,10 +7,10 @@ import java.sql.SQLException;
 
 /**
  *
- * @author Ryanp
+ * @author Ryan Paulo
  */
 public class Conexao {
-
+    
     private static String status = "Não conectou...";
 
     Connection connection = null;
@@ -18,7 +18,7 @@ public class Conexao {
 
     private String driverName = "com.mysql.cj.jdbc.Driver";
     private String serverName = "localhost:3306";
-    private String myDataBase = "aplicacao2";
+    private String myDataBase = "aplicacao3";
     private String url = "jdbc:mysql://" + serverName + "/" + myDataBase;
     private String userName = "root";
     private String passWord = "Rps4303.";
@@ -80,11 +80,6 @@ public class Conexao {
         FecharConexao();
         return getConnection();
     }
-
-    /**
-     * 
-     */
-
 
 
 }
