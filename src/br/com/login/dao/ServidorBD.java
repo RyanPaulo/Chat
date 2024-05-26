@@ -10,23 +10,20 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
-/**
- *
- * @author Ryan Paulo
- */
 public class ServidorBD extends Thread{
 
     private Socket conexao;
     
     Conexao conectaBD = new Conexao();
+    
     public static String nome;
+
     LoginDAO loginDAO = new LoginDAO();
  
 
     public static void main(String[] args) throws SQLException {
-        try {
-            ServerSocket s = new ServerSocket(4444);
+        try (ServerSocket s = new ServerSocket(4444);){
+            // ServerSocket s = new ServerSocket(4444);
 
             while (true) {
                 System.out.println("Esperando alguem se conectar...");

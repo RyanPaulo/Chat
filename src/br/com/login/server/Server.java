@@ -20,8 +20,10 @@ public class Server extends Thread {
 
     
     // ArrayList com o PrintStream dos clientes
+    @SuppressWarnings("rawtypes")
     private static ArrayList clientes = new ArrayList();
     // ArrayList com o nome dos clientes
+    @SuppressWarnings("rawtypes")
     private static ArrayList clientesNome = new ArrayList();
     // Socket deste cliente
     private Socket conexao;
@@ -30,9 +32,9 @@ public class Server extends Thread {
         
     public static void main(String args[]) {                        
         
-        try {
+        try (ServerSocket s = new ServerSocket(3333);){
             // criando um socket que fica escutando a porta 3333.
-            ServerSocket s = new ServerSocket(3333);
+            
             // Loop principal.
             while (true) {
                 /**  Aguarda algum cliente se conectar. A execução do
@@ -69,6 +71,7 @@ public class Server extends Thread {
      * O método run() é sobreescrito para receber o nome do usuário e depois 
      * ficar "escutando" por novas mensagens do usuário.
      */    
+    @SuppressWarnings("unchecked")
     @Override
     public void run() {
         try {

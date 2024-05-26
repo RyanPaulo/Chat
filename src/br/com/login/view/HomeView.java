@@ -1,7 +1,6 @@
 package br.com.login.view;
 
-import java.io.IOException;
-import java.net.Socket;
+
 import java.util.ArrayList;
 
 import javax.swing.DefaultListModel;
@@ -73,14 +72,14 @@ public class HomeView extends javax.swing.JFrame {
         login.setVisible(true);
     }              
     
-    public void conecta() {
-        try {
-            Socket conexao = new Socket("127.0.0.1", 3333);
+    // public void conecta() {
+    //     try {
+    //         Socket conexao = new Socket("127.0.0.1", 3333);
 
-        } catch (IOException e) {
-            System.out.println("IOException: " + e);
-        }
-    }
+    //     } catch (IOException e) {
+    //         System.out.println("IOException: " + e);
+    //     }
+    // }
     public void atualizarContatos(ArrayList<String> meuNome) {
         DefaultListModel<String> model = new DefaultListModel<>();
         for(String nome : meuNome) {

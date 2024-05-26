@@ -70,7 +70,7 @@ public class LoginView extends javax.swing.JFrame {
                         try {
                             jb_entrarActionPerformed(evt);
                         } catch (IOException | SQLException e) {
-                            // TODO Auto-generated catch block
+                        
                             e.printStackTrace();
                         }
                   
@@ -120,7 +120,7 @@ public class LoginView extends javax.swing.JFrame {
   
 
     private void jp_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jp_senhaActionPerformed
-        // TODO add your handling code here:
+     
     }//GEN-LAST:event_jp_senhaActionPerformed
 
     private void jb_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_cadastroActionPerformed
@@ -129,6 +129,7 @@ public class LoginView extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_jb_cadastroActionPerformed
 
+    @SuppressWarnings("deprecation")
     private void jb_entrarActionPerformed(java.awt.event.ActionEvent evt) throws IOException, SQLException {//GEN-FIRST:event_jb_entrarActionPerformed
         
         HomeView telaHome = new HomeView();

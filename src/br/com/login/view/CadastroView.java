@@ -2,13 +2,10 @@ package br.com.login.view;
 
 
 import br.com.login.controller.MD5Controller;
-import br.com.login.dao.Conexao;
 import br.com.login.dao.LoginDAO;
 
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-
-import java.sql.Connection;
 import java.sql.SQLException;
 
 // import javax.swing.JOptionPane;
@@ -81,9 +78,10 @@ public class CadastroView extends javax.swing.JFrame {
     }// </editor-fold>                        
 
     private void jp_senhaActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        // TODO add your handling code here:
+    
     }                                        
 
+    @SuppressWarnings("deprecation")
     private void jb_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {                                             
         
         MD5Controller md5 = new MD5Controller();
@@ -94,7 +92,6 @@ public class CadastroView extends javax.swing.JFrame {
         }else {
         
                 try{
-                Connection conexao = new Conexao().getConnection(); 
                 LoginDAO cadastro = new LoginDAO();
                 String senha = md5.gerarMD5(this.getJpf_senha().getText());
 
