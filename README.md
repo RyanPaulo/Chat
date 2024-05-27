@@ -15,12 +15,12 @@ Este projeto implementa um chat em rede local utilizando sockets, threads e um b
 
 
 ### Funcionalidades
-**Login e Cadastro:** Os usuários podem fazer login com suas credenciais ou criar uma nova conta.<br/>
-**Chat Multithread:** O servidor gerencia várias conexões simultâneas, permitindo que os clientes troquem mensagens em tempo real.<br/>
-**Banco de Dados:** As informações dos usuários são armazenadas em um banco de dados para autenticação e gerenciamento.<br/><br/>
+- **Login e Cadastro:** Os usuários podem fazer login com suas credenciais ou criar uma nova conta.<br/>
+- **Chat Multithread:** O servidor gerencia várias conexões simultâneas, permitindo que os clientes troquem mensagens em tempo real.<br/>
+- **Banco de Dados:** As informações dos usuários são armazenadas em um banco de dados para autenticação e gerenciamento.<br/><br/>
 
 ### Como Executar o Projeto
-**1. Configuração do Banco de Dados:** Crie um banco de dados chamado "chat" no MySQL. O slq esta disponivel na pasta, identificado como **"TableLogin.sql"**. <br/>
+- [1] **Configuração do Banco de Dados:** Crie um banco de dados chamado "chat" no MySQL. O slq esta disponivel na pasta, identificado como **"TableLogin.sql"**. <br/>
 **2. Execução dos Servidores:** <br/>
 **-** Execute o projeto ServidorBD para iniciar o servidor de banco de dados (porta 4444).<br/>
 **-** Execute o projeto Server para iniciar o servidor de chat (porta 3333).<br/>
