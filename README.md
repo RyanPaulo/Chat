@@ -1,6 +1,6 @@
 # Aplicativo de comunicação em chat utilizando sockets e therads
 
-***Disciplina:*** Arquitetura de Redes de Computador <br/>
+**Disciplina:** Arquitetura de Redes de Computador <br/>
 **Docente:** Luciano Cavalheiro <br/>
 **Discente:** Ryan Paulo | Isabelle Cedro | Leonardo Cordeiro | Luana Bezerra | Kaique Alves <br/>
 
@@ -8,10 +8,10 @@
 Este projeto implementa um chat em rede local utilizando sockets, threads e um banco de dados. Os usuários podem fazer login, e se não tiverem cadastro, podem ser redirecionados para a tela de cadastro para efetuar o cadastro. Após o login, eles podem abrir a tela do chat e aguardar a conexão de outros clientes. A conexão é feita por multithreading, permitindo que vários usuários se conectem ao mesmo tempo e troquem mensagens.<br/><br/>
 
 ### Ferramentas Utilizadas
-**NetBeans:** Utilizado para o desenvolvimento da interface gráfica do chat.<br/>
-**Adobe Photoshop:** Utilizado para criar e editar elementos visuais da interface, como ícones e botões.<br/>
-**Visual Studio Code** Utilizado para o restante do desenvolvimento do projeto, incluindo a lógica do chat, manipulação de sockets e gerenciamento de threads.<br/>
-**MySQL Workbench:** Utilizado para criar a tabela no banco de dados e gerenciar as informações dos usuários.<br/><br/>
+- **NetBeans:** Utilizado para o desenvolvimento da interface gráfica do chat.<br/>
+- **Adobe Photoshop:** Utilizado para criar e editar elementos visuais da interface, como ícones e botões.<br/>
+- **Visual Studio Code** Utilizado para o restante do desenvolvimento do projeto, incluindo a lógica do chat, manipulação de sockets e gerenciamento de threads.<br/>
+- **MySQL Workbench:** Utilizado para criar a tabela no banco de dados e gerenciar as informações dos usuários.<br/><br/>
 
 
 ### Funcionalidades
