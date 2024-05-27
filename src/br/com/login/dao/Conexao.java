@@ -18,19 +18,25 @@ public class Conexao {
 
     private String driverName = "com.mysql.cj.jdbc.Driver";
     private String serverName = "localhost:3306";
-    private String myDataBase = "aplicacao3";
+    private String myDataBase = "chat";
     private String url = "jdbc:mysql://" + serverName + "/" + myDataBase;
-    private String userName = "root";
+    //Parametro de login pessoal do MySql
+    private String userName = "root"; 
     private String passWord = "Rps4303.";
 
+    /**
+     * Metodo para fazer a conexao com o Banco de dados, Mysql.
+     * @return
+     * @throws SQLException
+     */
     public Connection getConnection() throws SQLException{
         
 
         try {
             Class.forName(driverName);
-
+            //Endereço de conexao do MySql
             Connection conexao = (Connection) DriverManager.getConnection(url, userName, passWord);
-
+            //Vericação da conexao
             if (conexao != null) {
                 status = ("STATUS> Conectado com sucesso!");
             }else {

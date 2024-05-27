@@ -1,58 +1,59 @@
  package br.com.login.controller;
 
-
  import static br.com.login.view.ChatView.jt_message;
 
-import java.io.*;
- import java.net.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.Socket;
  
  /**
  *
  * @author Ryan Paulo
  */
- public class Clients extends Thread {
+public class Clients extends Thread {
      
-     // Flag que indica quando se deve terminar a execução.
-     private static boolean done = false;
-     // Parte que controla a recepção de mensagens deste cliente.
-     private Socket conexao;  
+    // Flag que indica quando se deve terminar a execução.
+    private static boolean done = false;
+    // Parte que controla a recepção de mensagens deste cliente.
+    private Socket conexao;  
                     
      /**
       * Construtor que recebe o socket deste cliente.
       * @param s Recebe variável do tipo socket.
       */
-     public Clients(Socket s) {
+    public Clients(Socket s) {
          conexao = s;
-     }
+        }
       
      /**
       * Retorna a conexão do usuário.
       * @return Uma variável do tipo socket.
       */
-     public Socket getConexao() {
+    public Socket getConexao() {
          return conexao;
-     }
+        }
      
-     /**
-      * Retorna o estado da flag de execução.
-      * @return True ou false.
-      */
-     public boolean getDone() {
+    /**
+    * Retorna o estado da flag de execução.
+    * @return True ou false.
+    */
+    public boolean getDone() {
          return done;
-     }
+        }
      
      /**
       * Seta o estado da flag de execução.
       * @param valor Recebe um boolean.
       */
-     public void setDone(boolean valor) {
+    public void setDone(boolean valor) {
          done = valor;
-     }
-     
-     /**
-      * Execução da thread do cliente, fica "escutando" por novas mensagens do servidor.
-      */
-     public void run() {        
+        }
+    /**
+    * 
+    * Execução da thread do cliente, fica "escutando" por novas mensagens do servidor.
+    */
+    public void run() {        
          try {
              BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
              String linha;

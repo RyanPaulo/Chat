@@ -11,13 +11,18 @@ import javax.swing.text.DefaultCaret;
 import br.com.login.controller.Clients;
 
 /**
- *
+ * Class que representa a interface do chat
  * @author Ryan Paulo
  */
 public class ChatView extends javax.swing.JFrame {
 
     Clients client;
-  
+
+    public static LoginView loginView = new LoginView();
+
+    /**
+    * Construtor para receber os parametros da inteface do chat
+    */
     public ChatView() {
         initComponents();
         this.setResizable(false);
@@ -28,16 +33,18 @@ public class ChatView extends javax.swing.JFrame {
     }
 
 
-
+    /**
+     * Metodo para estabelecer a conexao com servido principal
+     */
     public void conecta() {
-        jl_cliete.setText("Chat Global " + LoginView.nomeUsuario);
+        jl_cliete.setText("Chat Global " + loginView.nomeUsuario);
         jt_message.setText(LoginView.nomeUsuario + " entrou no chat");
         try {
             Socket conexao = new Socket("127.0.0.1", 3333);
             this.client = new Clients(conexao);
 
             PrintStream saida = new PrintStream(conexao.getOutputStream());
-            saida.println(LoginView.nomeUsuario);
+            saida.println(loginView.nomeUsuario);
 
             Thread t = this.client;
             t.start();
@@ -46,6 +53,11 @@ public class ChatView extends javax.swing.JFrame {
         }
     }
 
+    /**
+     * Metodo que envia uma mensagem para o servidor, que será enviada aos outros clientes.
+     * @param msg
+     * @throws IOException
+     */
     public void sendMsg(String msg) throws IOException {
         jt_message.setText(jt_message.getText() + "\nVocê disse > " + jt_enviarMsg.getText());
         jt_enviarMsg.setText("");
@@ -56,7 +68,10 @@ public class ChatView extends javax.swing.JFrame {
         }
         saida.println(msg);
     }
-                      
+
+    /**
+     * Define a disposição dos componentes na interface.
+     */
     private void initComponents() {
 
         jt_enviarMsg = new javax.swing.JTextField();
@@ -64,7 +79,7 @@ public class ChatView extends javax.swing.JFrame {
         jl_cliete = new javax.swing.JLabel();
         jb_enviar = new javax.swing.JButton();
         jt_message = new javax.swing.JTextArea();
-        jLabel2 = new javax.swing.JLabel();
+        jl_imagem = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -100,16 +115,26 @@ public class ChatView extends javax.swing.JFrame {
         jt_message.setRows(5);
         getContentPane().add(jt_message, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 120, 550, 470));
 
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resouces/TelaChat.png"))); // NOI18N
-        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jl_imagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resouces/TelaChat.png"))); // NOI18N
+        getContentPane().add(jl_imagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>                        
+    }                     
+    /**
+     * Função do botao voltar para a tela de login
+     * @param evt
+     */
+    private void jb_voltarActionPerformed(java.awt.event.ActionEvent evt) {  
+        this.setVisible(false);
+        loginView.setVisible(true);
 
-    private void jb_voltarActionPerformed(java.awt.event.ActionEvent evt) {                                          
     }          
     
+    /**
+     * Função do botao para fazer o envio da mensagem
+     * @param evt
+     */
     private void jb_enviarActionPerformed(java.awt.event.ActionEvent evt) {                                          
         if (!"".equals(jt_enviarMsg.getText())) {
             try {
@@ -121,44 +146,11 @@ public class ChatView extends javax.swing.JFrame {
             jt_enviarMsg.grabFocus();
         }
     }
-
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ChatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ChatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ChatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ChatView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new ChatView().setVisible(true);
-            }
-        });
-    }
-
-    // Variables declaration - do not modify                     
-    private javax.swing.JLabel jLabel2;
+                  
+    private javax.swing.JLabel jl_imagem;
     private javax.swing.JButton jb_enviar;
     private javax.swing.JButton jb_voltar;
     private javax.swing.JLabel jl_cliete;
     public static javax.swing.JTextArea jt_message;
-    private javax.swing.JTextField jt_enviarMsg;
-    // End of variables declaration                   
+    private javax.swing.JTextField jt_enviarMsg;                  
 }

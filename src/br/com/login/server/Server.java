@@ -17,10 +17,6 @@ import java.io.InputStreamReader;
  */
 public class Server extends Thread {
         
-
- 
-    
-    
     // ArrayList com o PrintStream dos clientes
     @SuppressWarnings("rawtypes")
     private static ArrayList clientes = new ArrayList();
@@ -33,10 +29,6 @@ public class Server extends Thread {
     private String meuNome;
         
     public static void main(String args[]) {    
-        
-           //teste commit
-            System.err.println("Teste");
-
         
         try (ServerSocket s = new ServerSocket(3333);){
             // criando um socket que fica escutando a porta 3333.

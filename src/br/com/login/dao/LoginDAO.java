@@ -13,10 +13,17 @@ import java.sql.Statement;
  */
 public class LoginDAO {
     
+    /**
+     * Metodo para fazer o registro do usuario no Banco de dados 
+     * @param nome
+     * @param email
+     * @param senha
+     * @return
+     * @throws SQLException
+     */
     public boolean cadastrarUsuario(String nome, String email, String senha) throws SQLException{
         Connection conexao = new Conexao().getConnection();
         String sql = "INSERT INTO login (nome, email, senha) VALUES ( ?, ?, ?) ";
-        //System.out.println(sql);
         try (PreparedStatement statment = conexao.prepareStatement(sql)) {
             statment.setString(1, nome);
             statment.setString(2, email);
@@ -27,16 +34,21 @@ public class LoginDAO {
     
     }
   
-    
+    /**
+     * Metodo para realizar o login
+     * @param email
+     * @param senha
+     * @return
+     * @throws SQLException
+     */  
     public boolean login(String email, String senha) throws SQLException {
         Connection conexao = new Conexao().getConnection();
-
 
         String sql = "SELECT nome, email, senha from login WHERE email = '"+email+"' AND senha = '"+senha+"' ";
         System.out.println(sql);
         Statement statment = conexao.createStatement();
         ResultSet rs = statment.executeQuery(sql);
-        
+        //Verificação se a o registro no banco de dados
         if(rs != null && rs.next()){
             System.out.println("Possui");
             ServidorBD.nome = rs.getString("nome");
@@ -45,8 +57,6 @@ public class LoginDAO {
         }else {
             System.out.println("Não possui");
         }
-        
         return false;
-    
     }
 }

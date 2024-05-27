@@ -10,20 +10,30 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+
+/**
+ *
+ * @Thread indicando que ela será executada como uma thread separada.
+ * @author Ryan Paulo
+ */
 public class ServidorBD extends Thread{
 
+    //Socket para as conexoes com os clientes
     private Socket conexao;
-    
+    //Instancia para gerenciar a conexão com o banco de dados.
     Conexao conectaBD = new Conexao();
-    
+    // Nome deste cliente
     public static String nome;
-
+    //Instancia para lida com operações de banco de dados
     LoginDAO loginDAO = new LoginDAO();
  
-
+    /**
+     * Metodo para iniciar o servido do Banco de dados, ouvindo na porta 4444.
+     * @param args
+     * @throws SQLException
+     */
     public static void main(String[] args) throws SQLException {
         try (ServerSocket s = new ServerSocket(4444);){
-            // ServerSocket s = new ServerSocket(4444);
 
             while (true) {
                 System.out.println("Esperando alguem se conectar...");
@@ -39,12 +49,20 @@ public class ServidorBD extends Thread{
         }
     }
 
-       public ServidorBD(Socket s) throws SQLException {
+    /**
+     *  Construtor que inicializa a conexao com o Socket
+     * @param s
+     * @throws SQLException
+     */
+    public ServidorBD(Socket s) throws SQLException {
         conexao = s;
         conectaBD.getConnection();
         System.out.println(conectaBD.statusConexao());
     }
 
+    /**
+     * Metodo que de entrada para a thread. Le a mensagens do cliente e realiza o login ou o registro do usuário
+     */
     public void run() {
         try {
             BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
@@ -85,6 +103,9 @@ public class ServidorBD extends Thread{
         }
     }
 
+    /**
+     * Metodo que fecha a conexão do socket.
+     */
     public void fecharConexao() {
         try {
             conexao.close();

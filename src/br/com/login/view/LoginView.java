@@ -28,7 +28,7 @@ public class LoginView extends javax.swing.JFrame {
     public static String nomeUsuario;
 
     /**
-     * Creates new form LoginView
+     * Construtor para receber os parametros da inteface de Login
      */
     public LoginView() {
         initComponents();
@@ -39,6 +39,9 @@ public class LoginView extends javax.swing.JFrame {
         
     }
 
+    /**
+     * Define a disposição dos componentes na interface.
+     */
     private void initComponents() {
 
         jt_login = new javax.swing.JTextField();
@@ -47,13 +50,13 @@ public class LoginView extends javax.swing.JFrame {
         jb_cadastro = new javax.swing.JButton();
         jl_aviso2 = new javax.swing.JLabel();
         jl_aviso = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        jl_imagem = new javax.swing.JLabel();
 
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jt_login.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); // NOI18N
+        jt_login.setFont(new java.awt.Font("Arial Rounded MT Bold", 0, 14)); 
         getContentPane().add(jt_login, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 220, 300, 40));
 
         jp_senha.addActionListener(new java.awt.event.ActionListener() {
@@ -87,30 +90,35 @@ public class LoginView extends javax.swing.JFrame {
         });
         getContentPane().add(jb_cadastro, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 490, 200, 30));
 
-        jl_aviso2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        jl_aviso2.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18));
         jl_aviso2.setForeground(new java.awt.Color(0, 204, 51));
         getContentPane().add(jl_aviso2, new org.netbeans.lib.awtextra.AbsoluteConstraints(50, 370, 370, 40));
 
-        jl_aviso.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); // NOI18N
+        jl_aviso.setFont(new java.awt.Font("Arial Rounded MT Bold", 1, 18)); 
         jl_aviso.setForeground(new java.awt.Color(255, 0, 0));
         getContentPane().add(jl_aviso, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 370, 280, 40));
 
-        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resouces/TelaLogin.png"))); // NOI18N
-        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        jl_imagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resouces/TelaLogin.png"))); 
+        getContentPane().add(jl_imagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
+    /**
+     * Contrutor para limpar os campos da interface
+     */
     public void limpaCampos() {
         jt_login.setText("");
         jt_login.grabFocus();
         jp_senha.setText("");
     }
 
+    /**
+     * Contrutor para criando conexão com o servidor
+     */
     public void conectaBD() {
-        try {
-            // criando conexão com o servidor
+        try { 
             LoginView.conexao = new Socket("127.0.0.1", 4444);
         } catch (IOException ex) {
             Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
@@ -119,30 +127,29 @@ public class LoginView extends javax.swing.JFrame {
 
   
 
-    private void jp_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jp_senhaActionPerformed
+    private void jp_senhaActionPerformed(java.awt.event.ActionEvent evt) {
      
-    }//GEN-LAST:event_jp_senhaActionPerformed
+    }
 
-    private void jb_cadastroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_cadastroActionPerformed
+    private void jb_cadastroActionPerformed(java.awt.event.ActionEvent evt) {
         CadastroView telaDeCadastro = new CadastroView();
         telaDeCadastro.setVisible(true);
         this.setVisible(false);
-    }//GEN-LAST:event_jb_cadastroActionPerformed
+    }
 
     @SuppressWarnings("deprecation")
-    private void jb_entrarActionPerformed(java.awt.event.ActionEvent evt) throws IOException, SQLException {//GEN-FIRST:event_jb_entrarActionPerformed
-        
-        HomeView telaHome = new HomeView();
+    private void jb_entrarActionPerformed(java.awt.event.ActionEvent evt) throws IOException, SQLException {
         CadastroView cadastro = new CadastroView();
         ChatView chat = new ChatView();
 
         jl_aviso2.setVisible(false);
 
-        if (jt_login.getText().matches("") || jp_senha.getText().matches("")) {//se um dos campos estiver vazio retorna aviso
+        //se um dos campos estiver vazio retorna aviso
+        if (jt_login.getText().matches("") || jp_senha.getText().matches("")) {
             jl_aviso.setText("Preencha todos os campos");
         
         }else {
-
+            //se todos os campos estiverem preenchido e o cadastro for true, faz o login
             PrintStream saida;
             try{
                 BufferedReader entrada = new BufferedReader(new InputStreamReader(conexao.getInputStream()));
@@ -162,25 +169,18 @@ public class LoginView extends javax.swing.JFrame {
                     chat.conecta();
                     chat.setVisible(true);
                     cadastro.setVisible(false);
-                    telaHome.setVisible(true);
                     saida.close();
                 }else {
                     limpaCampos();
                     jl_aviso.setText("Usuario ou senha invalido.");
                     jl_aviso.setVisible(true);
                 }
-
-            
             }catch(IOException ex) {
                 Logger.getLogger(LoginView.class.getName()).log(Level.SEVERE, null, ex);
                 
             }
-
-        }
-       
-       
-        
-    }//GEN-LAST:event_jb_entrarActionPerformed
+        } 
+    }
 
     public JLabel getJl_aviso2() {
         return jl_aviso2;
@@ -199,9 +199,6 @@ public class LoginView extends javax.swing.JFrame {
         this.jp_senha = jp_senha;
     }
 
-
-   
-
     public JTextField getJt_login() {
         return jt_login;
     }
@@ -211,9 +208,8 @@ public class LoginView extends javax.swing.JFrame {
     }
 
     
-    
-    
     /**
+     * Metodo para inicializar a aplicação
      * @param args the command line arguments
      */
     public static void main(String args[]) {
@@ -233,9 +229,7 @@ public class LoginView extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(LoginView.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        //</editor-fold>
-
-        /* Create and display the form */
+   
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new LoginView().setVisible(true);
@@ -243,13 +237,12 @@ public class LoginView extends javax.swing.JFrame {
         });
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jl_imagem;
     private javax.swing.JButton jb_cadastro;
     private javax.swing.JButton jb_entrar;
     private javax.swing.JLabel jl_aviso;
     private javax.swing.JLabel jl_aviso2;
     private javax.swing.JPasswordField jp_senha;
     private javax.swing.JTextField jt_login;
-    // End of variables declaration//GEN-END:variables
+
 }
