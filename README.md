@@ -1,6 +1,6 @@
 # Aplicativo de comunicação em chat utilizando sockets e therads
 
-**Disciplina:** Arquitetura de Redes de Computador <br/>
+***Disciplina:*** Arquitetura de Redes de Computador <br/>
 **Docente:** Luciano Cavalheiro <br/>
 **Discente:** Ryan Paulo | Isabelle Cedro | Leonardo Cordeiro | Luana Bezerra | Kaique Alves <br/>
 
