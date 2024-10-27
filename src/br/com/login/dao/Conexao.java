@@ -17,12 +17,12 @@ public class Conexao {
 
 
     private String driverName = "com.mysql.cj.jdbc.Driver";
-    private String serverName = "localhost:3306";
+    private String serverName = "localhost";
     private String myDataBase = "chat";
     private String url = "jdbc:mysql://" + serverName + "/" + myDataBase;
     //Parametro de login pessoal do MySql
-    private String userName = "root"; 
-    private String passWord = "Rps4303.";
+    private String userName = "####"; 
+    private String passWord = "#####.";
 
     /**
      * Metodo para fazer a conexao com o Banco de dados, Mysql.
